@@ -315,6 +315,9 @@
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Misc\AntiImmobile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Misc\PacketCounter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\libhat\libhat.lib" />
@@ -2137,6 +2140,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\AntiImmobile.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\PacketCounter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

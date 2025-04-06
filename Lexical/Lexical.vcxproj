@@ -166,6 +166,7 @@
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\Reach.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\Surround.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Misc\AntiImmobile.cpp" />
+    <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Misc\PacketCounter.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Player\FastEat.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Misc\Disabler.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Misc\Spammer.cpp" />
@@ -301,6 +302,7 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\Reach.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\Surround.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\AntiImmobile.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\PacketCounter.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\FastEat.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\Disabler.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\Spammer.h" />

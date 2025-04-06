@@ -10,12 +10,10 @@ void Hitbox::onNormalTick(LocalPlayer* localPlayer) {
 	Level* level = localPlayer->level;
 	if (level == nullptr)
 		return;
-
 	for (auto& entity : level->getRuntimeActorList()) {
 		if (TargetUtil::isTargetValid(entity, includeMobs)) {
 			AABBShapeComponent* entityAABB = entity->aabbShape;
-			entityAABB->height = height;
-			entityAABB->width = width;
+			entityAABB->aabb.size = Vec2<float>(width, height);
 		}
 	}
 }

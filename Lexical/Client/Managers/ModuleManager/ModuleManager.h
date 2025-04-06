@@ -1,18 +1,16 @@
 #pragma once
 #include "Modules/ModuleBase/Module.h"
-
-//COMBAT
 #include "Modules/Category/Combat/AutoCrystal.h"
 #include "Modules/Category/Combat/BowSpam.h"
 #include "Modules/Category/Combat/Reach.h"
 #include "Modules/Category/Combat/Criticals.h"
-
+#include "Modules/Category/Combat/autoY.h"
+#include "Modules/Category/Misc/AntiImmobile.h"
+#include "Modules/Category/Misc/PacketCounter.h"
+#include "Modules/Category/Render/UIBlur.h"
 #include "Modules/Category/Combat/Hitbox.h"
 #include "Modules/Category/Combat/Surround.h"
 #include "Modules/Category/Combat/KillAura.h"
-
-
-//MOVEMENT
 #include "Modules/Category/Movement/AirJump.h"
 #include "Modules/Category/Movement/AutoSprint.h"
 #include "Modules/Category/Movement/ReverseStep.h"
@@ -26,10 +24,7 @@
 #include "Modules/Category/Movement/Spider.h"
 #include "Modules/Category/Movement/Velocity.h"
 #include "Modules/Category/Movement/Step.h"
-
-//RENDER
 #include "Modules/Category/Render/Arraylist.h"
-
 #include "Modules/Category/Render/BlockHighlight.h"
 #include "Modules/Category/Render/BreakIndicators.h"
 #include "Modules/Category/Render/CameraTweaks.h"
@@ -45,29 +40,19 @@
 #include "Modules/Category/Render/NoRender.h"
 #include "Modules/Category/Render/Swing.h"
 #include "Modules/Category/Render/Tracer.h"
-
-//PLAYER
 #include "Modules/Category/Player/AntiBot.h"
 #include "Modules/Category/Player/AutoTool.h"
 #include "Modules/Category/Player/BlockReach.h"
-
 #include "Modules/Category/Player/FastUse.h"
 #include "Modules/Category/Player/NoSwing.h"
 #include "Modules/Category/Player/FastEat.h"
 #include "Modules/Category/Player/Offhand.h"
-
-//WORLD
 #include "Modules/Category/World/AirPlace.h"
 #include "Modules/Category/World/AutoLeave.h"
-
-//MISC
 #include "Modules/Category/Misc/Spammer.h"
 #include "Modules/Category/Misc/Disabler.h"
-
 #include "Modules/Category/Misc/NoPacket.h"
 #include "Modules/Category/Misc/Timer.h"
-
-//CLIENT
 #include "Modules/Category/Client/ClickGUI.h"
 #include "Modules/Category/Client/CustomFont.h"
 #include "Modules/Category/Client/Colors.h"

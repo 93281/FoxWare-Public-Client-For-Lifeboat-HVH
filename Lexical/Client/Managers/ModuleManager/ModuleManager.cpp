@@ -1,22 +1,14 @@
 #include "ModuleManager.h"
 #include "../../Client.h"
-#include "Modules/Category/Combat/autoY.h"
-#include "Modules/Category/Misc/AntiImmobile.h"
-#include "Modules/Category/Render/UIBlur.h"
 void ModuleManager::init() {
-
-	//COMBAT
 	moduleList.push_back(new BowSpam());
 	moduleList.push_back(new Criticals());
 	moduleList.push_back(new AutoCrystal());
-	
 	moduleList.push_back(new Hitbox());
 	moduleList.push_back(new Reach());
 	moduleList.push_back(new Surround());
 	moduleList.push_back(new Killaura());
 	moduleList.push_back(new AutoY());
-
-	//MOVEMENT
 	moduleList.push_back(new AirJump());
 	moduleList.push_back(new AutoSprint());
 	moduleList.push_back(new Fly());
@@ -25,22 +17,17 @@ void ModuleManager::init() {
 	moduleList.push_back(new Phase());
 	moduleList.push_back(new Step());
 	moduleList.push_back(new Speed());
-	// moduleList.push_back(new ElytraFly()); later
 	moduleList.push_back(new NoClip());
 	moduleList.push_back(new ReverseStep());
 	moduleList.push_back(new Spider());
 	moduleList.push_back(new Velocity());
-
-	//RENDER
 	moduleList.push_back(new Arraylist());
-	
 	moduleList.push_back(new BlockHighlight());
 	moduleList.push_back(new BreakIndicators());
 	moduleList.push_back(new CameraTweaks());
 	moduleList.push_back(new ChunkBorders());
 	moduleList.push_back(new CustomFov());
 	moduleList.push_back(new ESP());
-	//moduleList.push_back(new HurtColor());
 	moduleList.push_back(new Fullbright());
 	moduleList.push_back(new GlintColor());
 	moduleList.push_back(new HUD());
@@ -50,29 +37,22 @@ void ModuleManager::init() {
 	moduleList.push_back(new Swing());
 	moduleList.push_back(new Tracer());
 	moduleList.push_back(new UIBlur());
-	//PLAYER
 	moduleList.push_back(new AntiBot());
 	moduleList.push_back(new AutoTool());
 	moduleList.push_back(new BlockReach());
 	moduleList.push_back(new FastEat());
-	
 	moduleList.push_back(new FastUse());
 	moduleList.push_back(new NoSwing());
 	moduleList.push_back(new Offhand());
-
-	//WORLD
 	moduleList.push_back(new AirPlace());
 	moduleList.push_back(new AutoLeave());
-
-	//MISC
 	moduleList.push_back(new Disabler());
 	moduleList.push_back(new AntiImmobile());
 	moduleList.push_back(new NoPacket());
+	moduleList.push_back(new PacketCounter());
 	moduleList.push_back(new Timer());
 	moduleList.push_back(new Spammer());
-	//CLIENT
 	moduleList.push_back(new ClickGUI());
-	//moduleList.push_back(new ViewModel()); later
 	moduleList.push_back(new CustomFont());
 	moduleList.push_back(new Colors());
 
