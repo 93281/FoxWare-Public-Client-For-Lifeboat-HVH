@@ -162,6 +162,7 @@
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\autoY.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\BowSpam.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\Criticals.cpp" />
+    <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\Jitter.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\KillAura.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\Reach.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\Surround.cpp" />
@@ -299,6 +300,7 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\autoY.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\BowSpam.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\Criticals.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\Jitter.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\KillAura.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\Reach.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\Surround.h" />

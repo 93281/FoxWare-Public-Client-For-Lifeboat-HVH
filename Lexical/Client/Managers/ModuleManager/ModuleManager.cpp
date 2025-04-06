@@ -1,5 +1,6 @@
 #include "ModuleManager.h"
 #include "Modules/Category/Combat/TPAura.h"
+#include "Modules/Category/Combat/Jitter.h"
 #include "../../Client.h"
 void ModuleManager::init() {
 	moduleList.push_back(new BowSpam());
@@ -8,6 +9,7 @@ void ModuleManager::init() {
 	moduleList.push_back(new Hitbox());
 	moduleList.push_back(new Reach());
 	moduleList.push_back(new Surround());
+	moduleList.push_back(new Jitter());
 	moduleList.push_back(new Killaura());
 	moduleList.push_back(new AutoY());
 	moduleList.push_back(new AirJump());

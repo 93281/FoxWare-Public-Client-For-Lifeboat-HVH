@@ -321,6 +321,9 @@
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\TPAura.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Combat\Jitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libs\libhat\libhat.lib" />
@@ -2149,6 +2152,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\TPAura.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Combat\Jitter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
