@@ -1,6 +1,7 @@
 #include "ModuleManager.h"
 #include "../../Client.h"
 #include "Modules/Category/Combat/autoY.h"
+#include "Modules/Category/Misc/AntiImmobile.h"
 #include "Modules/Category/Render/UIBlur.h"
 void ModuleManager::init() {
 
@@ -61,16 +62,14 @@ void ModuleManager::init() {
 
 	//WORLD
 	moduleList.push_back(new AirPlace());
-
 	moduleList.push_back(new AutoLeave());
 
 	//MISC
 	moduleList.push_back(new Disabler());
-	
+	moduleList.push_back(new AntiImmobile());
 	moduleList.push_back(new NoPacket());
 	moduleList.push_back(new Timer());
 	moduleList.push_back(new Spammer());
-
 	//CLIENT
 	moduleList.push_back(new ClickGUI());
 	//moduleList.push_back(new ViewModel()); later
