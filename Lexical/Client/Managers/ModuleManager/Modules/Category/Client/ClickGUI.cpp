@@ -16,7 +16,20 @@ ClickGUI::~ClickGUI() {
 	}
 	windowList.clear();
 }
-
+struct clickGuiParticles {
+	Vec2<float> startPos;
+	Vec2<float> endPos;
+	float speed;
+	float size;
+	float duration = 1.f;
+	clickGuiParticles(const Vec2<float>& startpos, const Vec2<float>& endpos, const float& size2, const float& speed2) {
+		this->startPos = startpos;
+		this->endPos = endpos;
+		this->size = size2;
+		this->speed = speed2;
+	};
+};
+std::vector<std::shared_ptr<clickGuiParticles>> circleList;
 ClickGUI::ClickWindow::ClickWindow(std::string windowName, Vec2<float> startPos, Category c) {
 	this->name = windowName;
 	this->category = c;
@@ -153,49 +166,92 @@ void ClickGUI::InitClickGUI() {
 
 	initialized = true;
 }
+inline float fremate() {
+	return 60.f;
+}
+inline float RandomFloat(float a, float b) {
+	float random = ((float)rand()) / (float)RAND_MAX;
+	float diff = b - a;
+	float r = random * diff;
+	return a + r;
+}
+inline float lerpSync(const float& a, const float& b, const float& duration) {
+	const float result = (float)(a + (b - a) * duration * (60.f / fremate()));
+	if (a < b && result > b) return b;
+	else if (a > b && result < b) return b;
+	return result;
+}
 
 void ClickGUI::Render() {
 	if (!initialized)
 		return;
-
 	if (Game::canUseMoveKeys())
 		Game::clientInstance->releasebMouse();
-
 	static Vec2<float> oldMousePos = mousePos;
 	mouseDelta = mousePos.sub(oldMousePos);
 	oldMousePos = mousePos;
-
-	Vec2<float> screenSize = Game::clientInstance->guiData->windowSizeReal;	//D2D::getWindowSize();
+	Vec2<float> screenSize = Game::clientInstance->guiData->windowSizeReal;
 	float deltaTime = D2D::deltaTime;
-
 	float textSize = 1.f;
 	float textPaddingX = 3.f * textSize;
 	float textPaddingY = 0.f * textSize;
 	float textHeight = D2D::getTextHeight("", textSize);
-
 	std::string descriptionText = "NULL";
-
-	//UIColor mainColor = UIColor(115, 135, 255, 125);	// 135
-
-	//openAnim = Math::lerp(openAnim, 1.f, deltaTime * 2.5f);
 	openAnim += deltaTime * 2.f;
 	if (openAnim > 1.f)
 		openAnim = 1.f;
-
-	// Background screen
+	static float opacity = 0.f;
+	opacity = lerpSync(opacity, this->isEnabled() ? 1.f : 0.f, 0.15f);
 	if (blurStrength > 0.1f)
 		D2D::addBlur(Vec4<float>(0.f, 0.f, screenSize.x, screenSize.y), blurStrength * openAnim);
 	D2D::fillRectangle(Vec4<float>(0.f, 0.f, screenSize.x, screenSize.y), UIColor(0, 0, 0, (int)(110 * openAnim)));
-
-	// Render every single window
+	int steps = 100;
+	float stepHeight = screenSize.y / steps;
+	for (int i = 0; i < steps; i++) {
+		float t = (float)i / (steps - 1);
+		UIColor currentColor = ColorUtil::lerp(
+			UIColor(0, 0, 0, 100),
+			UIColor(mainColor.r, mainColor.g, mainColor.b, 100),
+			t
+		);
+		float top = i * stepHeight;
+		float bottom = top + stepHeight;
+		D2D::fillRectangle(Vec4<float>(
+			0.f,
+			top,
+			screenSize.x,
+			bottom
+		), currentColor);
+	}
+	float start = RandomFloat(0.f, screenSize.x);
+	if (circleList.size() < 125) {
+		int count = 1 * (int)(ceil(60.f / fremate()));
+		for (int i = 0; i < count; i++)
+			circleList.emplace_back(new clickGuiParticles(
+				Vec2<float>(start, screenSize.y + 10.f),
+				Vec2<float>(start, screenSize.y / RandomFloat(1.5f, 2.5f)),
+				RandomFloat(3.f, 10.f),
+				RandomFloat(1.f, 7.f)
+			));
+	}
+	for (int i = 0; i < circleList.size(); i++) {
+		std::shared_ptr<clickGuiParticles> p = circleList[i];
+		int alpha = (int)(150 * opacity * p->duration);
+		alpha = std::clamp(alpha, 0, 255);
+		UIColor colorWithAlpha(mainColor.r, mainColor.g, mainColor.b, alpha);
+		D2D::fillCircle(p->startPos, colorWithAlpha, p->size);
+		p->startPos.y -= p->speed * (20.f / fremate());
+		if (p->startPos.y <= p->endPos.y)
+			p->duration = lerpSync(p->duration, 0.f, 0.1f);
+		if (p->duration <= 0.1f) {
+			circleList.erase(circleList.begin() + i);
+			i--;
+		}
+	}
 	for (auto& window : windowList) {
-		// Logic for window
-
 		if (window == draggingWindowPtr) {
 			window->pos = window->pos.add(mouseDelta);
 		}
-
-		// Header RectPos
 		static CustomFont* customFontMod = ModuleManager::getModule<CustomFont>();
 		float fontPercent = (float)customFontMod->fontSize / 25.f;
 

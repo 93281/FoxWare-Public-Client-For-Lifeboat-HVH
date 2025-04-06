@@ -15,7 +15,7 @@ Killaura::Killaura() : Module("Killaura-CAT", "attacks entities around you", Cat
     registerSetting(new SliderSetting<float>("Hook Min Range", "range in which targets will be hit", &hookminrange, 3.5f, 1.f, 15.f));
     registerSetting(new BoolSetting("useHook", "rotate", &useHookspeed, true));
     registerSetting(new SliderSetting<float>("HookSpeed", "edits rotate and fly speed based off factor", &hookspeedH, 3.5f, 1.f, 50.f));
-    registerSetting(new SliderSetting<int>("CPS", "clicks per second", &delayFE, 15, 1, 50));
+    registerSetting(new SliderSetting<int>("CPS", "clicks per second", &delayFE, 15, 1, 100));
     registerSetting(new BoolSetting("Rotations", "rotate", &rotate, true));
     registerSetting(new BoolSetting("Instant Rotate", "rotate", &instantrotate, true));
     registerSetting(new EnumSetting("Target", "Target filter", { "Distance", "Health" }, &targeting, 0));
@@ -37,7 +37,7 @@ void Killaura::onEnable() {
 Vec2<float> targetRot;
 
 void Killaura::onNormalTick(LocalPlayer* localPlayer) {
-    if (!localPlayer) return;
+    if (!localPlayer || !localPlayer->getlevel()) return;
     auto now = std::chrono::steady_clock::now();
     float deltaTime = std::chrono::duration<float>(now - lastAttackTime).count();
     lastAttackTime = now;
@@ -46,67 +46,75 @@ void Killaura::onNormalTick(LocalPlayer* localPlayer) {
     int attacksToDo = static_cast<int>(expectedAttacks);
     if (attacksToDo > 0) {
         accumulatedTime -= attacksToDo / static_cast<float>(delayFE);
-
         std::vector<Actor*> validTargets;
-        for (Actor* ent : localPlayer->getlevel()->getRuntimeActorList()) {
-            if (!TargetUtil::isTargetValid(ent, mobs)) continue;
+        auto actorList = localPlayer->getlevel()->getRuntimeActorList();
+        if (actorList.empty()) return;
+
+        for (Actor* ent : actorList) {
+            if (!ent || !TargetUtil::isTargetValid(ent, mobs)) continue;
             if (localPlayer->getPos().dist(ent->getPos()) > range) continue;
             validTargets.push_back(ent);
         }
-
         if (targeting == 0) {
             std::sort(validTargets.begin(), validTargets.end(), [localPlayer](Actor* a, Actor* b) {
+                if (!a || !b) return false;
                 return localPlayer->getPos().dist(a->getPos()) < localPlayer->getPos().dist(b->getPos());
                 });
         }
         else if (targeting == 1) {
             std::sort(validTargets.begin(), validTargets.end(), [](Actor* a, Actor* b) {
+                if (!a || !b) return false;
                 return a->getHealth() > b->getHealth();
                 });
         }
         if (!validTargets.empty()) {
             Actor* target = validTargets.front();
-            for (int i = 0; i < attacksToDo; i++) {
-                localPlayer->swing();
-                localPlayer->getgameMode()->attack(target);
-                attackCounter++;
-            }
+            if (target && localPlayer->getgameMode()) {
+                for (int i = 0; i < attacksToDo; i++) {
+                    localPlayer->swing();
+                    localPlayer->getgameMode()->attack(target);
+                    attackCounter++;
+                }
 
-            targetRot = localPlayer->getEyePos().CalcAngle(target->getEyePos());
+                targetRot = localPlayer->getEyePos().CalcAngle(target->getEyePos());
+            }
         }
     }
 }
 
 void Killaura::onUpdateRotation(LocalPlayer* localPlayer) {
-    if (!rotate || !localPlayer) return;
-    BlockSource* region = Game::clientInstance->getRegion();
+    if (!rotate || !localPlayer || !localPlayer->getlevel()) return;
+    BlockSource* region = Game::clientInstance ? Game::clientInstance->getRegion() : nullptr;
     Level* level = localPlayer->level;
     bool foundTarget = false;
     std::vector<Actor*> validTargets;
-
-    for (Actor* ent : localPlayer->getlevel()->getRuntimeActorList()) {
-        if (!TargetUtil::isTargetValid(ent, mobs)) continue;
+    auto actorList = localPlayer->getlevel()->getRuntimeActorList();
+    if (actorList.empty()) return;
+    for (Actor* ent : actorList) {
+        if (!ent || !TargetUtil::isTargetValid(ent, mobs)) continue;
         float distance = localPlayer->getPos().dist(ent->getPos());
         if (distance > range) continue;
         validTargets.push_back(ent);
     }
-
     if (targeting == 0) {
         std::sort(validTargets.begin(), validTargets.end(), [localPlayer](Actor* a, Actor* b) {
+            if (!a || !b) return false;
             return localPlayer->getPos().dist(a->getPos()) < localPlayer->getPos().dist(b->getPos());
             });
     }
     else if (targeting == 1) {
         std::sort(validTargets.begin(), validTargets.end(), [](Actor* a, Actor* b) {
+            if (!a || !b) return false;
             return a->getHealth() > b->getHealth();
             });
     }
     if (!validTargets.empty()) {
         Actor* target = validTargets.front();
+        if (!target) return;
         float distance = localPlayer->getPos().dist(target->getPos());
         float targetYaw = targetRot.y;
         if (instantrotate) {
-            targetRot = localPlayer->getEyePos().CalcAngle(validTargets[0]->getEyePos());
+            targetRot = localPlayer->getEyePos().CalcAngle(target->getEyePos());
         }
         if (auto* headRot = localPlayer->getActorHeadRotationComponent()) {
             headRot->headYaw = targetYaw;
@@ -114,21 +122,20 @@ void Killaura::onUpdateRotation(LocalPlayer* localPlayer) {
         if (auto* bodyRot = localPlayer->getMobBodyRotationComponent()) {
             bodyRot->bodyYaw = targetYaw;
         }
-
-        localPlayer->rotation->presentRot = targetRot;
-
+        if (localPlayer->rotation) {
+            localPlayer->rotation->presentRot = targetRot;
+        }
         if (distance < hookminrange && useHookspeed)
             arewehooking = true;
         else
             arewehooking = false;
-
         foundTarget = true;
     }
-
     if (!foundTarget) {
         arewehooking = false;
     }
 }
 
 void Killaura::onSendPacket(Packet* packet) {
+    if (!packet) return;
 }
