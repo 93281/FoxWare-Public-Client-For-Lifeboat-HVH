@@ -1,11 +1,13 @@
 #include "ModuleManager.h"
 #include "Modules/Category/Combat/TPAura.h"
 #include "Modules/Category/Combat/Jitter.h"
+#include "Modules/Category/Combat/Killaura-fox.h"
 #include "../../Client.h"
 void ModuleManager::init() {
 	moduleList.push_back(new BowSpam());
 	moduleList.push_back(new Criticals());
 	moduleList.push_back(new AutoCrystal());
+	moduleList.push_back(new KillauraFOX());
 	moduleList.push_back(new Hitbox());
 	moduleList.push_back(new Reach());
 	moduleList.push_back(new Surround());
