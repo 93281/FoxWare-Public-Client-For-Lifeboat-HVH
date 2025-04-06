@@ -22,7 +22,7 @@ void Tracer::onLevelRender() {
 	MCR::setColor(color);
 	for (auto& actor : localPlayer->level->getRuntimeActorList()) {
 		if (TargetUtil::isTargetValid(actor, mobs)) {
-			Vec3<float> end = actor->getEyePos().sub(origin);
+			Vec3<float> end = actor->getPos().sub(origin);
 			tessellator->begin(VertextFormat::LINE_LIST, 2);
 			tessellator->vertex(start.x, start.y, start.z);
 			tessellator->vertex(end.x, end.y, end.z);
