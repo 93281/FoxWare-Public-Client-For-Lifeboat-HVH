@@ -13,31 +13,25 @@ std::string Criticals::getModeText() {
 	}
 	return "NULL";
 }
-
 void Criticals::onSendPacket(Packet* packet) {
-    static float offsetY = 0.0f;
-    static bool descending = true;
-    LocalPlayer* localPlayer = Game::getLocalPlayer();
-    if (localPlayer == nullptr) {
-        offsetY = 0.0f;
-        descending = true;
+    struct GlideState {
+        float offset = 0.f;
+        int stage = 0;
+        const float steps[13] = { -0.15f, -0.3f, -0.45f, -0.6f, -0.75f,
+                                -0.9f, -1.05f, -1.2f, -1.35f, -1.5f,
+                                -1.05f, -0.6f, -0.15f };
+    };
+    static GlideState glide;
+    if (packet->getId() != PacketID::PlayerAuthInput) return;
+    LocalPlayer* player = Game::getLocalPlayer();
+    if (!player) {
+        glide.offset = 0.f;
+        glide.stage = 0;
         return;
     }
-    if (mode == 0 && packet->getId() == PacketID::PlayerAuthInput) {
-        PlayerAuthInputPacket* paip = static_cast<PlayerAuthInputPacket*>(packet);
-        paip->position.y += offsetY;
-        if (descending) {
-            offsetY -= 0.25f;
-            if (offsetY <= -0.50f) {
-                descending = false;
-            }
-        }
-        else {
-            offsetY += 0.25f;
-            if (offsetY >= 0.0f) {
-                offsetY = 0.0f;
-                descending = true;
-            }
-        }
+    PlayerAuthInputPacket* authPacket = (PlayerAuthInputPacket*)packet;
+    authPacket->position.y += glide.steps[glide.stage];
+    if (++glide.stage >= 13) {
+        glide.stage = 0;
     }
 }
