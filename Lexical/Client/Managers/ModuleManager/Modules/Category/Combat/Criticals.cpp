@@ -27,13 +27,13 @@ void Criticals::onSendPacket(Packet* packet) {
         PlayerAuthInputPacket* paip = static_cast<PlayerAuthInputPacket*>(packet);
         paip->position.y += offsetY;
         if (descending) {
-            offsetY -= 0.05f;
-            if (offsetY <= -0.20f) {
+            offsetY -= 0.25f;
+            if (offsetY <= -0.50f) {
                 descending = false;
             }
         }
         else {
-            offsetY += 0.05f;
+            offsetY += 0.25f;
             if (offsetY >= 0.0f) {
                 offsetY = 0.0f;
                 descending = true;

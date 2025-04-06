@@ -1,4 +1,5 @@
 #include "ModuleManager.h"
+#include "Modules/Category/Combat/TPAura.h"
 #include "../../Client.h"
 void ModuleManager::init() {
 	moduleList.push_back(new BowSpam());
@@ -10,6 +11,7 @@ void ModuleManager::init() {
 	moduleList.push_back(new Killaura());
 	moduleList.push_back(new AutoY());
 	moduleList.push_back(new AirJump());
+	moduleList.push_back(new TPAura());
 	moduleList.push_back(new AutoSprint());
 	moduleList.push_back(new Fly());
 	moduleList.push_back(new Jetpack());

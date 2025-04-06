@@ -24,7 +24,7 @@ void Killaura::onEnable() {
     delayOFE = 0;
     arewehooking = false;
 }
-
+Vec2<float> targetRot;
 void Killaura::onNormalTick(LocalPlayer* localPlayer) {
     if (!localPlayer) return;
     if (delayOFE++ >= delayFE) {
@@ -49,12 +49,12 @@ void Killaura::onNormalTick(LocalPlayer* localPlayer) {
             Actor* target = validTargets.front();
             int attacks = hitattemptsFE;
             for (int i = 0; i < attacks; i++) {
-                localPlayer->getgameMode()->attack(target);
-                if (HitResult* hitResult = localPlayer->level->getHitResult()) {
-                    hitResult->type = HitResultType::ENTITY;
-                }
                 localPlayer->swing();
+                localPlayer->getgameMode()->attack(target);
+                localPlayer->swing();
+                localPlayer->setSprinting(false);
             }
+            targetRot = localPlayer->getEyePos().CalcAngle(target->getEyePos());
         }
     }
 }
@@ -84,7 +84,6 @@ void Killaura::onUpdateRotation(LocalPlayer* localPlayer) {
     if (!validTargets.empty()) {
         Actor* target = validTargets.front();
         float distance = localPlayer->getPos().dist(target->getPos());
-        Vec2<float> targetRot = localPlayer->getEyePos().CalcAngle(target->getEyePos());
         float targetYaw = targetRot.y;
         if (auto* headRot = localPlayer->getActorHeadRotationComponent()) {
             headRot->headYaw = targetYaw;

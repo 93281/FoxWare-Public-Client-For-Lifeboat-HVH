@@ -1,7 +1,7 @@
 #include "Timer.h"
 
 Timer::Timer() : Module("Timer", "Modify TPS (ticks per second) of game", Category::MISC) {
-	registerSetting(new SliderSetting<int>("TPS", "ticks per second", &timerValue, 40, 0, 200));
+	registerSetting(new SliderSetting<int>("TPS", "ticks per second", &timerValue, 40, 0, 40));
 }
 
 void Timer::onDisable() {
