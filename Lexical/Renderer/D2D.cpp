@@ -286,7 +286,25 @@ void D2D::fillRectangle(const Vec4<float>& rect, const UIColor& color) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
 	d2dDeviceContext->FillRectangle(D2D1::RectF(rect.x, rect.y, rect.z, rect.w), colorBrush);
 }
+void D2D::fillRoundedRectangle(const Vec4<float>& rect, const UIColor& color, float radius) {
+	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
+	D2D1_ROUNDED_RECT roundedRect = D2D1::RoundedRect(
+		D2D1::RectF(rect.x, rect.y, rect.z, rect.w),
+		radius,
+		radius
+	);
+	d2dDeviceContext->FillRoundedRectangle(roundedRect, colorBrush);
+}
 
+void D2D::drawRoundedRectangle(const Vec4<float>& rect, const UIColor& color, float radius, float width) {
+	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
+	D2D1_ROUNDED_RECT roundedRect = D2D1::RoundedRect(
+		D2D1::RectF(rect.x, rect.y, rect.z, rect.w),
+		radius,
+		radius
+	);
+	d2dDeviceContext->DrawRoundedRectangle(roundedRect, colorBrush, width);
+}
 void D2D::drawCircle(const Vec2<float>& centerPos, const UIColor& color, float radius, float width) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
 	d2dDeviceContext->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(centerPos.x, centerPos.y), radius, radius), colorBrush, width);

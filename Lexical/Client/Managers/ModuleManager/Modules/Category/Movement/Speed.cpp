@@ -1,8 +1,10 @@
 #include "Speed.h"
+bool sneakF;
 #include "../../../../HookManager/Hooks/Input/KeyMapHook.h"
 Speed::Speed() : Module("Speed", "Increase Speed", Category::MOVEMENT) {
     registerSetting(new SliderSetting<float>("Value", "How fast we go!", &speed, 1.f, 0.f, 2.f));
     registerSetting(new BoolSetting("Jump", "Jump automatically", &jump, true));
+    registerSetting(new BoolSetting("Sneak", "Jump automatically", &sneakF, true));
     registerSetting(new EnumSetting("Sprint", "Type of sprint", { "Always", "Smart" }, &sprintType, 0));
 }
 Vec2<float> getMotion(float speed) {
@@ -47,6 +49,12 @@ void setSpeed(float speed) {
 
 void Speed::onNormalTick(LocalPlayer* actor) {
 	float realSpeed = speed * 10.f;
+    if (sneakF) {
+        if (actor && actor->getMoveInputHandler()) {
+            actor->getMoveInputHandler()->sneaking = true; // Force sneak
+            actor->getMoveInputHandler()->sneakingPrev = true; // Keep consistency
+        }
+    }
 	if (sprintType == 0) Game::getLocalPlayer()->setSprinting(true);
 	if (sprintType == 1 && Game::getLocalPlayer()->getItemUseDuration() <= 0) Game::getLocalPlayer()->setSprinting(true);
 	else if (sprintType == 1 && Game::getLocalPlayer()->getItemUseDuration() > 0) Game::getLocalPlayer()->setSprinting(false);

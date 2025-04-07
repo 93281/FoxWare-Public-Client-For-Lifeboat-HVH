@@ -19,7 +19,8 @@ namespace D2D {
 	void Render();
 	void Clean();
 	void Flush();
-
+	void fillRoundedRectangle(const Vec4<float>& rect, const UIColor& color, float radius);
+	void drawRoundedRectangle(const Vec4<float>& rect, const UIColor& color, float radius, float width);
 	Vec2<float> getWindowSize();
 	void drawText(const Vec2<float>& textPos, const std::string& textStr, const UIColor& color, float textSize = 1.f, bool storeTextLayout = true);
 	float getTextWidth(const std::string& textStr, float textSize = 1.f, bool storeTextLayout = true);
